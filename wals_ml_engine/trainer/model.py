@@ -80,7 +80,7 @@ def create_test_and_train_sets(args, input_file, data_type='ratings'):
 def _page_views_train_and_test(input_file):
   """Load page views dataset, and create train and set sparse matrices.
 
-  Assumes 'userId', 'communityId', and 'timeOnPage' columns.
+  Assumes 'user_id', 'community_id', and 'timeOnPage' columns.
 
   Args:
     input_file: path to csv data file
@@ -93,16 +93,16 @@ def _page_views_train_and_test(input_file):
   """
   views_df = pd.read_csv(input_file, sep=',', header=0)
 
-  df_items = pd.DataFrame({'communityId': views_df.communityId.unique()})
-  df_sorted_items = df_items.sort_values('communityId').reset_index()
-  pds_items = df_sorted_items.communityId
+  df_items = pd.DataFrame({'community_id': views_df.community_id.unique()})
+  df_sorted_items = df_items.sort_values('community_id').reset_index()
+  pds_items = df_sorted_items.community_id
 
-  # preprocess data. df.groupby.agg sorts userId and communityId
-  df_user_items = views_df.groupby(['userId', 'communityId']
-                                  ).agg({'createdAt': 'sum'})
+  # preprocess data. df.groupby.agg sorts user_id and community_id
+  df_user_items = views_df.groupby(['user_id', 'community_id']
+                                  ).agg({'created_at': 'sum'})
 
-  # create a list of (userId, itemId, timeOnPage) ratings, where userId and
-  # userId are 0-indexed
+  # create a list of (user_id, itemId, timeOnPage) ratings, where user_id and
+  # user_id are 0-indexed
   current_u = -1
   ux = -1
   pv_ratings = []
