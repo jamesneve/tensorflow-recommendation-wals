@@ -101,8 +101,6 @@ def _page_views_train_and_test(input_file):
   df_user_items = views_df.groupby(['userId', 'communityId']
                                   ).agg({'createdAt': 'sum'})
 
-  print(df_user_items.to_string())
-
   # create a list of (userId, itemId, timeOnPage) ratings, where userId and
   # userId are 0-indexed
   current_u = -1
@@ -110,7 +108,6 @@ def _page_views_train_and_test(input_file):
   pv_ratings = []
   user_ux = []
   for timeonpg in df_user_items.itertuples():
-    print(timeonpg)
     user = timeonpg[0][0]
     item = timeonpg[0][1]
 
@@ -125,14 +122,9 @@ def _page_views_train_and_test(input_file):
     ix = pds_items.searchsorted(item)[0]
     pv_ratings.append((ux, ix, 1))
 
-  print(pv_ratings)
-
   # convert ratings list and user map to np array
   pv_ratings = np.asarray(pv_ratings)
   user_ux = np.asarray(user_ux)
-
-  print(pv_ratings)
-  print(user_ux)
 
   # create train and test sets
   tr_sparse, test_sparse = _create_sparse_train_and_test(pv_ratings,
