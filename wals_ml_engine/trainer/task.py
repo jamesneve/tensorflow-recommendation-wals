@@ -175,11 +175,7 @@ def parse_arguments():
   # update default params with any args provided to task
   params = model.DEFAULT_PARAMS
   params.update({k: arg for k, arg in arguments.iteritems() if arg is not None})
-  if args.use_optimized:
-    if args.data_type == 'web_views':
-      params.update(model.OPTIMIZED_PARAMS_WEB)
-    else:
-      params.update(model.OPTIMIZED_PARAMS)
+  params.update(model.OPTIMIZED_PARAMS)
   params.update(task_data)
   params.update({'output_dir': output_dir})
   params.update({'job_name': job_name})

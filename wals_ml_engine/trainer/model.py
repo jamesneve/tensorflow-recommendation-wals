@@ -42,18 +42,10 @@ DEFAULT_PARAMS = {
 
 # parameters optimized with hypertuning for the MovieLens data set
 OPTIMIZED_PARAMS = {
-    'latent_factors': 34,
-    'regularization': 9.83,
-    'unobs_weight': 0.001,
-    'feature_wt_factor': 189.8,
-}
-
-# parameters optimized with hypertuning for the included web views data set
-OPTIMIZED_PARAMS_WEB = {
-    'latent_factors': 30,
-    'regularization': 7.27,
-    'unobs_weight': 0.01,
-    'feature_wt_exp': 5.05,
+    'latent_factors': 4,
+    'regularization': 9.9995,
+    'unobs_weight': 4.9072,
+    'feature_wt_factor': 1.040,
 }
 
 
@@ -269,10 +261,12 @@ def generate_recommendations(user_idx, user_rated, row_factor, col_factor, k):
 
   # dot product of item factors with user factor gives predicted ratings
   pred_ratings = col_factor.dot(user_f)
+  print(pred_ratings)
 
   # find candidate recommended item indexes sorted by predicted rating
   k_r = k + len(user_rated)
   candidate_items = np.argsort(pred_ratings)[-k_r:]
+  print(candidate_items)
 
   # remove previously rated items and take top k
   recommended_items = [i for i in candidate_items if i not in user_rated]
