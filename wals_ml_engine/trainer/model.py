@@ -112,7 +112,7 @@ def _page_views_train_and_test(input_file):
     # this search makes the preprocessing time O(r * i log(i)),
     # r = # ratings, i = # items
     ix = pds_items.searchsorted(item)[0]
-    pv_ratings.append((ux, ix, 1))
+    pv_ratings.append((ux, ix, timeonpg[1]))
 
   # convert ratings list and user map to np array
   pv_ratings = np.asarray(pv_ratings)
