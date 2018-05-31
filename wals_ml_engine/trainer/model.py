@@ -42,10 +42,10 @@ DEFAULT_PARAMS = {
 
 # parameters optimized with hypertuning for the MovieLens data set
 OPTIMIZED_PARAMS = {
-    'latent_factors': 4,
-    'regularization': 9.9995,
-    'unobs_weight': 4.9072,
-    'feature_wt_factor': 1.040,
+    'latent_factors': 10,
+    'regularization': 0.07,
+    'unobs_weight': 0,
+    'feature_wt_factor': 1.00,
 }
 
 
@@ -112,7 +112,7 @@ def _page_views_train_and_test(input_file):
     # this search makes the preprocessing time O(r * i log(i)),
     # r = # ratings, i = # items
     ix = pds_items.searchsorted(item)[0]
-    pv_ratings.append((ux, ix, int(timeonpg[1] - 1372675070.0)))
+    pv_ratings.append((ux, ix, 1))
 
   print(pv_ratings)
   # convert ratings list and user map to np array
