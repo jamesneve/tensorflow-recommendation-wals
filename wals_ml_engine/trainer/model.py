@@ -42,7 +42,7 @@ DEFAULT_PARAMS = {
 
 # parameters optimized with hypertuning for the MovieLens data set
 OPTIMIZED_PARAMS = {
-    'latent_factors': 2,
+    'latent_factors': 10,
     'regularization': 0.07,
     'unobs_weight': 0.01,
     'feature_wt_factor': 1.00,
