@@ -1,9 +1,9 @@
 import numpy as np
 from model import generate_recommendations
 
-client_id = 3008756
-already_rated = [32261,26617,52041,30764,82408,94590,81097,71491,9123,172]
-k = 5
+client_id = 4
+already_rated = []
+k = 3
 user_map = np.load("tmp/model/user.npy")
 item_map = np.load("tmp/model/item.npy")
 row_factor = np.load("tmp/model/row.npy")

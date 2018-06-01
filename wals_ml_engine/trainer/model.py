@@ -25,7 +25,7 @@ import tensorflow as tf
 import wals
 
 # ratio of train set size to test set size
-TEST_SET_RATIO = 10
+TEST_SET_RATIO = 6
 
 # default hyperparameters
 DEFAULT_PARAMS = {
@@ -42,7 +42,7 @@ DEFAULT_PARAMS = {
 
 # parameters optimized with hypertuning for the MovieLens data set
 OPTIMIZED_PARAMS = {
-    'latent_factors': 10,
+    'latent_factors': 2,
     'regularization': 0.07,
     'unobs_weight': 0.01,
     'feature_wt_factor': 1.00,
@@ -112,9 +112,8 @@ def _page_views_train_and_test(input_file):
     # this search makes the preprocessing time O(r * i log(i)),
     # r = # ratings, i = # items
     ix = pds_items.searchsorted(item)[0]
-    pv_ratings.append((ux, ix, 10))
+    pv_ratings.append((ux, ix, 1))
 
-  print(pv_ratings)
   # convert ratings list and user map to np array
   pv_ratings = np.asarray(pv_ratings)
   user_ux = np.asarray(user_ux)
@@ -143,6 +142,7 @@ def _create_sparse_train_and_test(ratings, n_users, n_items):
   test_set_idx = np.random.choice(xrange(len(ratings)),
                                   size=test_set_size, replace=False)
   test_set_idx = sorted(test_set_idx)
+  # print(test_set_idx)
 
   # sift ratings into train and test sets
   ts_ratings = ratings[test_set_idx]
@@ -151,9 +151,13 @@ def _create_sparse_train_and_test(ratings, n_users, n_items):
   # create training and test matrices as coo_matrix's
   u_tr, i_tr, r_tr = zip(*tr_ratings)
   tr_sparse = coo_matrix((r_tr, (u_tr, i_tr)), shape=(n_users, n_items))
+  # print("Train")
+  # print(tr_sparse)
 
   u_ts, i_ts, r_ts = zip(*ts_ratings)
   test_sparse = coo_matrix((r_ts, (u_ts, i_ts)), shape=(n_users, n_items))
+  # print("Test")
+  # print(test_sparse)
 
   return tr_sparse, test_sparse
 
@@ -262,12 +266,12 @@ def generate_recommendations(user_idx, user_rated, row_factor, col_factor, k):
 
   # dot product of item factors with user factor gives predicted ratings
   pred_ratings = col_factor.dot(user_f)
-  print(pred_ratings)
+  # print(pred_ratings)
 
   # find candidate recommended item indexes sorted by predicted rating
   k_r = k + len(user_rated)
   candidate_items = np.argsort(pred_ratings)[-k_r:]
-  print(candidate_items)
+  # print(candidate_items)
 
   # remove previously rated items and take top k
   recommended_items = [i for i in candidate_items if i not in user_rated]

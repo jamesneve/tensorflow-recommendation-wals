@@ -72,9 +72,9 @@ def simple_train(model, input_tensor, num_iterations):
 
   return sess
 
-LOG_RATINGS = 0
+LOG_RATINGS = 1
 LINEAR_RATINGS = 1
-LINEAR_OBS_W = 100.0
+LINEAR_OBS_W = 1
 
 
 def make_wts(data, wt_type, obs_wt, feature_wt_exp, axis):
@@ -138,6 +138,14 @@ def wals_model(data, dim, reg, unobs, weights=False,
     assert feature_wt_exp is not None
     row_wts = np.ones(num_rows)
     col_wts = make_wts(data, wt_type, obs_wt, feature_wt_exp, 0)
+
+  # print("WALS model")
+  # print(data)
+  # print(row_wts)
+  # print(col_wts)
+
+  wts = np.matmul(np.transpose([col_wts]), [row_wts])
+  # print(wts)
 
   row_factor = None
   col_factor = None
